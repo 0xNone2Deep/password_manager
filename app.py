@@ -11,17 +11,20 @@ with open('key.key', 'rb') as key_file:
 def view_pass(key):
     with open('passlist.txt', 'rb') as pl:
         passwords = pl.readlines()
-        for password in passwords:
-            time, account_id, passw = password.decode().split('|')
-            fer = Fernet(key)
-            clear_pass = fer.decrypt(passw.encode())
-            print(f'Acount ID: {account_id}, Password: {clear_pass.decode()}, Added on: {time} \n')
+        if not passwords:
+            print('\nSorry, you do not have any saved passwords. Add a password first. \n')
+        else:
+            for password in passwords:
+                time, account_id, passw = password.decode().split('|')
+                fer = Fernet(key)
+                clear_pass = fer.decrypt(passw.encode())
+                print(f'Acount ID: {account_id}, Password: {clear_pass.decode()}, Added on: {time} \n')
     
 
 def add_pass(key):
     #Collect account details to encrypt
-    account_id = input('Enter account ID: \n')
-    passw = getpass('Enter the password: \n')
+    account_id = input('Enter account ID: \n>>')
+    passw = getpass('Enter the password: (password is hidden when typing) \n>>')
 
     fer = Fernet(key)
     encr_passw = fer.encrypt(passw.encode())
@@ -34,10 +37,10 @@ def add_pass(key):
 
 
 while True:
-    master_code= getpass('Welcome! Please enter the master password to continue using the tool. \n')
+    master_code= getpass('Welcome! Please enter the master password to continue using the tool. (password is hidden when typing) \n>>')
     if master_code == master_key:
         while True:
-            prog_mode = input('Do you want to add a new password or view existing ones? (add/view/q (to quit program)) \n')
+            prog_mode = input('Do you want to add a new password or view existing ones? (add/view/q (to quit program)) \n>>')
             if prog_mode == "view":
                 view_pass(encr_key)
             elif prog_mode == "add":
@@ -47,7 +50,7 @@ while True:
             else:
                 print('Invalid Mode.')
     else:
-        print('You have entered an invalid master password. Please try again.')
+        print('You have entered an invalid master password. Please try again. \n')
 
 
 
