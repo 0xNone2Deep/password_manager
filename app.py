@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 from datetime import datetime as dt
 from getpass import getpass
 
-master_key = '0x9n2Deep'
+master_key = '0xNone2Deep'
 
 with open('key.key', 'rb') as key_file:
     encr_key = key_file.read()
